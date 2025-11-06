@@ -14,7 +14,7 @@ public interface ItemRepository {
 
     void removeItem(Integer id);
 
-    Collection<Item> getItems(Integer UserId);
+    Collection<Item> getItems(Integer userId);
 
     Collection<Item> searchItems(String text);
 
