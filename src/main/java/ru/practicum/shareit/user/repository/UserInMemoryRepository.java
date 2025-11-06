@@ -6,6 +6,8 @@ import ru.practicum.shareit.user.model.User;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+
 @Repository
 public class UserInMemoryRepository implements UserRepository {
     private final Map<Integer, User> users;
@@ -19,6 +21,10 @@ public class UserInMemoryRepository implements UserRepository {
             throw new ValidationException("Пользователь с id " + id + "не найден");
         }
         return users.get(id);
+    }
+
+    public User getUserByEmail(String email) {
+        return users.values().stream().filter(user -> user.getEmail().equals(email)).findFirst().orElse(null);
     }
 
     public User addUser(User user) {
@@ -52,7 +58,7 @@ public class UserInMemoryRepository implements UserRepository {
             throw new ValidationException("Указан некорректный формат почты");
         }
 
-        if (users.values().stream().anyMatch(u -> u.getEmail().equals(user.getEmail()))) {
+        if (users.values().stream().anyMatch(u -> u.getEmail().equals(user.getEmail()) && !Objects.equals(u.getId(), user.getId()))) {
             throw new ValidationException("email уже занят");
         }
     }
