@@ -2,6 +2,7 @@ package ru.practicum.shareit.user.repository;
 
 import jakarta.validation.ValidationException;
 import org.springframework.stereotype.Repository;
+import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.user.model.User;
 
 import java.util.HashMap;
@@ -18,7 +19,7 @@ public class UserInMemoryRepository implements UserRepository {
 
     public User getUser(Integer id) {
         if (!users.containsKey(id)) {
-            throw new ValidationException("Пользователь с id " + id + "не найден");
+            throw new NotFoundException("Пользователь с id " + id + "не найден");
         }
         return users.get(id);
     }

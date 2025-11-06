@@ -5,15 +5,15 @@ import jakarta.validation.ValidationException;
 import ru.practicum.shareit.user.model.User;
 
 public interface UserRepository {
-    public User getUser(Integer id);
+    User getUser(Integer id);
 
-    public User getUserByEmail(String email);
+    User getUserByEmail(String email);
 
-    public User addUser(@Valid User user);
+    User addUser(@Valid User user);
 
-    public User updateUser(@Valid User user);
+    User updateUser(@Valid User user);
 
-    public void removeUser(Integer id);
+    void removeUser(Integer id);
 
-    public  void validate(User user) throws ValidationException;
+    void validate(User user) throws ValidationException;
 }
