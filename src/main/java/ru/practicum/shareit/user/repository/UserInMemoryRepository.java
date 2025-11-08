@@ -55,10 +55,6 @@ public class UserInMemoryRepository implements UserRepository {
             throw new ValidationException("Поле email не может быть пустым или null");
         }
 
-        if (!user.getEmail().contains("@") || user.getEmail().startsWith("@") || user.getEmail().endsWith("@")) {
-            throw new ValidationException("Указан некорректный формат почты");
-        }
-
         if (users.values().stream().anyMatch(u -> u.getEmail().equals(user.getEmail()) && !Objects.equals(u.getId(), user.getId()))) {
             throw new ValidationException("email уже занят");
         }
