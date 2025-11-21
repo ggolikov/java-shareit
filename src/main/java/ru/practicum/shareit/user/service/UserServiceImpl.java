@@ -3,6 +3,7 @@ package ru.practicum.shareit.user.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.mapper.UserMapper;
 import ru.practicum.shareit.user.model.User;
@@ -15,46 +16,36 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     public UserDto getUser(Integer id) {
-        return UserMapper.mapToUserDto(userRepository.getUser(id));
+        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("User not found"));
+        return UserMapper.mapToUserDto(user);
     }
 
     public UserDto addUser(UserDto userDto) {
-        return UserMapper.mapToUserDto(userRepository.addUser(UserMapper.mapToUser(userDto)));
+        User user = userRepository.save(UserMapper.mapToUser(userDto));
+        return UserMapper.mapToUserDto(user);
     }
 
     public UserDto updateUser(Integer id, UserDto userDto) {
-        User updateUser = UserMapper.mapToUser(userDto);
-        updateUser.setId(id);
-        User user = null;
+        UserDto existingUserDto = getUser(id);
 
-        if (updateUser.getEmail() != null) {
-            user = userRepository.getUserByEmail(updateUser.getEmail());
+        if (existingUserDto != null) {
+            if (userDto.getName() != null) {
+                existingUserDto.setName(userDto.getName());
+            }
+
+            if (userDto.getEmail() != null) {
+                existingUserDto.setEmail(userDto.getEmail());
+            }
+
+            User updatingUser = userRepository.save(UserMapper.mapToUser(existingUserDto));
+
+            return UserMapper.mapToUserDto(updatingUser);
         }
 
-        if (user == null) {
-            user = userRepository.getUser(id);
-        }
-
-        if (user == null) {
-            return addUser(userDto);
-        }
-
-        User existingUser = new User();
-        existingUser.setId(id);
-        existingUser.setEmail(user.getEmail());
-        existingUser.setName(user.getName());
-
-        if (updateUser.getEmail() != null) {
-            existingUser.setEmail(updateUser.getEmail());
-        }
-        if (updateUser.getName() != null) {
-            existingUser.setName(updateUser.getName());
-        }
-
-        return UserMapper.mapToUserDto(userRepository.updateUser(existingUser));
+        throw new NotFoundException("User not found");
     }
 
     public void removeUser(Integer id) {
-        userRepository.removeUser(id);
+        userRepository.deleteById(id);
     }
 }
