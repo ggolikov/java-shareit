@@ -33,8 +33,8 @@ public class ItemServiceImpl implements ItemService {
             throw new ValidationException("Name is empty");
         }
 
-        userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User not found"));
-        itemDto.setOwnerId(userId);
+        User owner = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User not found"));
+        itemDto.setOwner(owner);
         Item item = itemRepository.save(ItemMapper.mapToItem(itemDto));
 
         return ItemMapper.mapToItemDto(item);
@@ -52,7 +52,7 @@ public class ItemServiceImpl implements ItemService {
 
         Item existingItem = new Item();
         existingItem.setId(item.getId());
-        existingItem.setOwnerId(owner.getId());
+        existingItem.setOwner(owner);
         existingItem.setName(item.getName());
         existingItem.setDescription(item.getDescription());
         existingItem.setAvailable(item.getAvailable());
