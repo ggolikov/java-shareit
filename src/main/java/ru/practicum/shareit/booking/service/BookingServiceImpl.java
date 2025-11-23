@@ -19,6 +19,7 @@ import ru.practicum.shareit.user.repository.UserRepository;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,7 +40,7 @@ public class BookingServiceImpl implements BookingService {
             throw new ValidationException("Not available");
         }
 
-        if (owner.getId() != userId && booker.getId() != userId) {
+        if (!Objects.equals(owner.getId(), userId) && !Objects.equals(booker.getId(), userId)) {
             throw new ValidationException("Not owner of booking");
         }
 
@@ -75,7 +76,7 @@ public class BookingServiceImpl implements BookingService {
             throw new ValidationException("Not available");
         }
 
-        if (item.getOwner().getId() != userId) {
+        if (!Objects.equals(item.getOwner().getId(), userId)) {
             throw new ValidationException("Not owner of booking");
         }
 

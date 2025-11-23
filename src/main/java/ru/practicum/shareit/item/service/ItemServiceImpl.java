@@ -22,6 +22,7 @@ import ru.practicum.shareit.user.repository.UserRepository;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -136,7 +137,7 @@ public class ItemServiceImpl implements ItemService {
 
         Item item = itemRepository.findById(id).orElseThrow(() -> new NotFoundException("Item not found"));
         User author = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User not found"));
-        Collection<Booking> itemBookingsFromUser = bookingRepository.getItemBookings(item.getId()).stream().filter(booking -> booking.getBooker().getId() == userId && booking.getEnd().isBefore(now)).collect(Collectors.toList());
+        Collection<Booking> itemBookingsFromUser = bookingRepository.getItemBookings(item.getId()).stream().filter(booking -> Objects.equals(booking.getBooker().getId(), userId) && booking.getEnd().isBefore(now)).collect(Collectors.toList());
 
         if (itemBookingsFromUser.isEmpty()) {
             throw new ValidationException("Comment from not an item owner");
