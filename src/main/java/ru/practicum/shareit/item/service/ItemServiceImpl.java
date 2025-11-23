@@ -41,8 +41,8 @@ public class ItemServiceImpl implements ItemService {
         Collection<Booking> itemBookings = bookingRepository.getItemBookings(id);
         LocalDateTime now = LocalDateTime.now();
 
-        Booking lastBooking = itemBookings.stream().filter(b -> b.getStart().isBefore(now)).findFirst().orElse(null);
-        Booking nextBooking = itemBookings.stream().filter(b -> b.getEnd().isAfter(now)).findFirst().orElse(null);
+        Booking lastBooking = itemBookings.stream().filter(b -> b.getEnd().isAfter(now)).findFirst().orElse(null);
+        Booking nextBooking = itemBookings.stream().filter(b -> b.getStart().isAfter(now)).findFirst().orElse(null);
 
         itemDto.setLastBooking(lastBooking);
         itemDto.setNextBooking(nextBooking);
@@ -105,7 +105,7 @@ public class ItemServiceImpl implements ItemService {
 
         userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User not found"));
 
-        Collection<ExtendedItemDto> items = itemRepository.findAll().stream().map(ItemMapper::mapToExtendedItemDto).collect(Collectors.toList());
+        Collection<ExtendedItemDto> items = itemRepository.findAll().stream().filter(item -> Objects.equals(item.getOwner().getId(), userId)).map(ItemMapper::mapToExtendedItemDto).collect(Collectors.toList());
 
         for (ExtendedItemDto itemDto : items) {
             Integer itemId = itemDto.getId();
@@ -113,8 +113,8 @@ public class ItemServiceImpl implements ItemService {
             Collection<Booking> itemBookings = bookingRepository.getItemBookings(itemId);
             LocalDateTime now = LocalDateTime.now();
 
-            Booking lastBooking = itemBookings.stream().filter(b -> b.getStart().isBefore(now)).findFirst().orElse(null);
-            Booking nextBooking = itemBookings.stream().filter(b -> b.getEnd().isAfter(now)).findFirst().orElse(null);
+            Booking lastBooking = itemBookings.stream().filter(b -> b.getEnd().isAfter(now)).findFirst().orElse(null);
+            Booking nextBooking = itemBookings.stream().filter(b -> b.getStart().isAfter(now)).findFirst().orElse(null);
 
             itemDto.setLastBooking(lastBooking);
             itemDto.setNextBooking(nextBooking);

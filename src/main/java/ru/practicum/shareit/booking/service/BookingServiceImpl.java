@@ -12,6 +12,8 @@ import ru.practicum.shareit.booking.model.BookingStatus;
 import ru.practicum.shareit.booking.repository.BookingRepository;
 import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.exception.ValidationException;
+import ru.practicum.shareit.item.dto.ExtendedItemDto;
+import ru.practicum.shareit.item.mapper.ItemMapper;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.repository.ItemRepository;
 import ru.practicum.shareit.user.model.User;
@@ -118,6 +120,12 @@ public class BookingServiceImpl implements BookingService {
     }
 
     public Collection<BookingDto> getUserItemsBookings(Integer userId, BookingSearchStatus state) {
+        Collection<ExtendedItemDto> items = itemRepository.findAll().stream().filter(item -> Objects.equals(item.getOwner().getId(), userId)).map(ItemMapper::mapToExtendedItemDto).toList();
+
+        if (items.isEmpty()) {
+            throw new NotFoundException("User has no items");
+        }
+
         Collection<Booking> bookings = bookingRepository.getUserItemsBookings(userId);
         LocalDateTime now = LocalDateTime.now();
         switch (state) {
