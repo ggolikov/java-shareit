@@ -17,5 +17,6 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
             select it.id from items as it where it.owner_id = ?1
         ) 
 """, nativeQuery = true)
+
     Collection<Booking> getUserItemsBookings(Integer itemId);
 }
