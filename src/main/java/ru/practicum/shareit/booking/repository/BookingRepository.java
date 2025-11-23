@@ -6,8 +6,11 @@ import ru.practicum.shareit.booking.model.Booking;
 import java.util.Collection;
 
 public interface BookingRepository extends JpaRepository<Booking, Integer> {
-    @Query("select i from Item i where i.owner.id = ?1")
+    @Query("select b from Booking b where b.booker.id = ?1")
     Collection<Booking> getUserBookings(Integer userId);
+
+    @Query("select b from Booking b where b.item.id = ?1 order by b.start asc")
+    Collection<Booking> getItemBookings(Integer itemId);
 
     @Query(value = """
         select * from bookings where item_id IN (

@@ -2,6 +2,8 @@ package ru.practicum.shareit.item.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import ru.practicum.shareit.user.model.User;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -12,8 +14,13 @@ public class Comment {
     Integer id;
     @Column(name = "text", nullable = false)
     String text;
-    @Column(name = "item_id", nullable = false)
-    Integer itemId;
-    @Column(name = "author_id", nullable = false)
-    Integer authorId;
+    @Column(name = "created", nullable = false)
+    LocalDateTime created;
+    @ManyToOne
+    @JoinColumn(name = "item_id")
+    Item item;
+    @ManyToOne
+    @JoinColumn(name = "author_id")
+    User author;
+
 }
