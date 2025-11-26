@@ -1,7 +1,11 @@
 package ru.practicum.shareit.booking.model;
 
-public enum BookingStatus {
+public enum BookingSearchStatus {
     WAITING,
     APPROVED,
     REJECTED,
+    ALL,
+    CURRENT,
+    PAST,
+    FUTURE,
 }
