@@ -3,6 +3,7 @@ package ru.practicum.shareit.booking.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.booking.dto.AddBookingDto;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.mapper.BookingMapper;
@@ -32,6 +33,7 @@ public class BookingServiceImpl implements BookingService {
     private final UserRepository userRepository;
     private final ItemRepository itemRepository;
 
+    @Transactional(readOnly = true)
     public BookingDto getBooking(Integer userId, Integer bookingId) {
         Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new NotFoundException("Booking with id " + bookingId + " not found"));
         Item item = booking.getItem();
@@ -93,6 +95,7 @@ public class BookingServiceImpl implements BookingService {
         return BookingMapper.mapToBookingDto(updatedBooking);
     }
 
+    @Transactional(readOnly = true)
     public Collection<BookingDto> getUserBookings(Integer userId, BookingSearchStatus state) {
         Collection<Booking> bookings = bookingRepository.getUserBookings(userId);
         LocalDateTime now = LocalDateTime.now();
@@ -119,6 +122,7 @@ public class BookingServiceImpl implements BookingService {
         return bookings.stream().map(BookingMapper::mapToBookingDto).collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public Collection<BookingDto> getUserItemsBookings(Integer userId, BookingSearchStatus state) {
         Collection<ExtendedItemDto> items = itemRepository.findAll().stream().filter(item -> Objects.equals(item.getOwner().getId(), userId)).map(ItemMapper::mapToExtendedItemDto).toList();
 

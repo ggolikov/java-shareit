@@ -3,6 +3,7 @@ package ru.practicum.shareit.item.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.repository.BookingRepository;
 import ru.practicum.shareit.exception.NotFoundException;
@@ -34,6 +35,7 @@ public class ItemServiceImpl implements ItemService {
     private final CommentRepository commentRepository;
     private final BookingRepository bookingRepository;
 
+    @Transactional(readOnly = true)
     public ExtendedItemDto getItem(Integer id) {
         Item item = itemRepository.findById(id).orElseThrow(() -> new NotFoundException("Item not found"));
         ExtendedItemDto itemDto = ItemMapper.mapToExtendedItemDto(item);
@@ -98,6 +100,7 @@ public class ItemServiceImpl implements ItemService {
         return ItemMapper.mapToItemDto(itemRepository.save(existingItem));
     }
 
+    @Transactional(readOnly = true)
     public Collection<ExtendedItemDto> getItems(Integer userId) {
         if (userId == null) {
             throw new IllegalArgumentException("Параметр userId не может быть null");
@@ -123,6 +126,7 @@ public class ItemServiceImpl implements ItemService {
         return items;
     }
 
+    @Transactional(readOnly = true)
     public Collection<ItemDto> searchItems(String text) {
         if (text == null || text.isEmpty()) {
             return new ArrayList<>();

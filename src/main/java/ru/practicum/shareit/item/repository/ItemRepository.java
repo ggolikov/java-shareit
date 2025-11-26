@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import org.springframework.data.repository.query.Param;
 import ru.practicum.shareit.item.model.Item;
 
 import java.time.LocalDateTime;
@@ -16,6 +17,6 @@ public interface ItemRepository  extends JpaRepository<Item, Integer> {
     Collection<Item> searchItems(String text);
 
     @Modifying
-    @Query(value = "insert into comments (text, item_id, author_id, created) values(?1, ?2, ?3, ?4)", nativeQuery = true)
-    void addComment(String text, int itemId, int authorId, LocalDateTime created);
+    @Query(value = "insert into comments (text, item_id, author_id, created) values(:text, :itemId, :authorId, :created)", nativeQuery = true)
+    void addComment(@Param("text") String text, @Param("itemId") int itemId, @Param("authorId") int authorId, @Param("created") LocalDateTime created);
 }
