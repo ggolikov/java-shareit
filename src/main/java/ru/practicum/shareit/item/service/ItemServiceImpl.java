@@ -8,6 +8,7 @@ import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.repository.BookingRepository;
 import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.exception.ValidationException;
+import ru.practicum.shareit.item.dto.AddItemDto;
 import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ExtendedItemDto;
 import ru.practicum.shareit.item.dto.ItemDto;
@@ -56,10 +57,17 @@ public class ItemServiceImpl implements ItemService {
         return itemDto;
     }
 
-    public ItemDto addItem(Integer userId, ItemDto itemDto) {
-        if (itemDto.getName() == null || itemDto.getName().isEmpty()) {
+    public ItemDto addItem(Integer userId, AddItemDto addItemDto) {
+        if (addItemDto.getName() == null || addItemDto.getName().isEmpty()) {
             throw new ValidationException("Name is empty");
         }
+
+        ItemDto itemDto = new ItemDto();
+
+        itemDto.setName(addItemDto.getName());
+        itemDto.setDescription(addItemDto.getDescription());
+        itemDto.setAvailable(addItemDto.getAvailable());
+        itemDto.setRequestId(addItemDto.getRequestId());
 
         User owner = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User not found"));
         itemDto.setOwner(owner);

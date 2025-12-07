@@ -30,6 +30,8 @@ public class Item {
     @Getter
     @Setter
     User owner;
+    @Getter
+    @Setter
     @Column(name = "request_id")
     Integer requestId;
 }

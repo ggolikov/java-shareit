@@ -1,14 +1,11 @@
 package ru.practicum.shareit.item.dto;
 
 import lombok.Data;
-import ru.practicum.shareit.user.model.User;
 
 @Data
-public class ItemDto {
-    public Integer id;
+public class AddItemDto {
     public String name;
     public String description;
     public Boolean available;
-    public User owner;
     public Integer requestId;
 }
