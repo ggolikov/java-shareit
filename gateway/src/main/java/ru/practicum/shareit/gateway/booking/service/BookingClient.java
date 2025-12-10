@@ -13,6 +13,7 @@ import ru.practicum.shareit.gateway.booking.model.BookingSearchStatus;
 import ru.practicum.shareit.gateway.client.BaseClient;
 
 import java.util.Map;
+
 @Qualifier("bookingClient")
 @Service
 public class BookingClient extends BaseClient {
@@ -29,7 +30,7 @@ public class BookingClient extends BaseClient {
     }
 
     public ResponseEntity<Object> getBooking(Long userId, Long id) {
-        return get( "/" + id, userId);
+        return get("/" + id, userId);
     }
 
     public ResponseEntity<Object> addBooking(Long userId, AddBookingDto addBookingDto) {
@@ -48,6 +49,6 @@ public class BookingClient extends BaseClient {
     }
 
     public ResponseEntity<Object> getUserItemsBookings(Long userId, BookingSearchStatus state) {
-        return get( "/owner", userId, Map.of("state", state));
+        return get("/owner", userId, Map.of("state", state));
     }
 }
