@@ -1,6 +1,5 @@
 package ru.practicum.shareit.server.request.mapper;
 
-import ru.practicum.shareit.server.item.dto.ItemDto;
 import ru.practicum.shareit.server.item.mapper.ItemMapper;
 import ru.practicum.shareit.server.item.model.Item;
 import ru.practicum.shareit.server.request.dto.RequestDto;
@@ -8,7 +7,6 @@ import ru.practicum.shareit.server.request.model.Request;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class RequestMapper {
     public static RequestDto mapToRequestDto(final Request request) {
@@ -24,22 +22,5 @@ public class RequestMapper {
         requestDto.setItems(items.stream().map(ItemMapper::mapToItemDto).toList());
 
         return requestDto;
-    }
-
-    public static Request mapToRequest(final RequestDto requestDto) {
-        Request request = new Request();
-
-        request.setId(requestDto.getId());
-        request.setDescription(requestDto.getDescription());
-        request.setCreated(requestDto.getCreated());
-        List<ItemDto> items = requestDto.getItems();
-
-        if (items == null) {
-            items = new ArrayList<>();
-        }
-
-        request.setItems(items.stream().map(ItemMapper::mapToItem).collect(Collectors.toList()));
-
-        return request;
     }
 }
