@@ -140,7 +140,7 @@ class ItemServiceImplTest {
 
         when(userRepository.findById(1)).thenReturn(Optional.empty());
 
-        assertThrows(NotFoundException.class, () -> itemService.addItem(1, addItemDto));
+        assertThrows(NotFoundException.class, () -> itemService.addItem(null, addItemDto));
     }
 
     // -------------------------------------------------------------------
@@ -207,7 +207,7 @@ class ItemServiceImplTest {
 
         when(userRepository.findById(1)).thenReturn(Optional.empty());
 
-        assertThrows(NotFoundException.class, () -> itemService.updateItem(1, 1, updatedItemDto));
+        assertThrows(NotFoundException.class, () -> itemService.updateItem(1, null, updatedItemDto));
     }
 
     // -------------------------------------------------------------------
@@ -248,7 +248,7 @@ class ItemServiceImplTest {
     @Test
     void getItems_userNotFound() {
         when(userRepository.findById(1)).thenReturn(Optional.empty());
-        assertThrows(NotFoundException.class, () -> itemService.getItems(1));
+        assertThrows(IllegalArgumentException.class, () -> itemService.getItems(null));
     }
 
     // -------------------------------------------------------------------

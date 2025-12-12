@@ -15,6 +15,7 @@ import ru.practicum.shareit.server.request.dto.RequestDto;
 import ru.practicum.shareit.server.request.service.RequestService;
 
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -75,5 +76,41 @@ class RequestControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(request.getId()), Integer.class))
                 .andExpect(jsonPath("$.description", is(request.getDescription())));
+    }
+
+    @Test
+    void getCurrentUserRequests() throws Exception {
+        RequestDto request = new RequestDto();
+        request.setDescription("description");
+        request.setId(1);
+
+        Mockito.when(requestService.getUserRequests(1))
+                .thenReturn(List.of(request));
+
+        mvc.perform(get("/requests")
+                        .header("X-Sharer-User-Id", "1")
+                        .characterEncoding(StandardCharsets.UTF_8)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(1));
+    }
+
+    @Test
+    void getOtherUserRequests() throws Exception {
+        RequestDto request = new RequestDto();
+        request.setDescription("description");
+        request.setId(1);
+
+        Mockito.when(requestService.getOtherUserRequests(1))
+                .thenReturn(List.of(request));
+
+        mvc.perform(get("/requests")
+                        .header("X-Sharer-User-Id", "1")
+                        .characterEncoding(StandardCharsets.UTF_8)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(0));
     }
 }

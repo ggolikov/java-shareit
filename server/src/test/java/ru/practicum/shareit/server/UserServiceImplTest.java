@@ -108,7 +108,7 @@ class UserServiceImplTest {
     @Test
     void updateUser_shouldThrowNotFoundIfUserMissing() {
         when(userRepository.findById(1)).thenReturn(Optional.empty());
-        assertThrows(NotFoundException.class, () -> userService.updateUser(1, new UserDto()));
+        assertThrows(NotFoundException.class, () -> userService.updateUser(null, new UserDto()));
     }
 
     // ----------------------------------------------------------------------

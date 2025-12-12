@@ -71,4 +71,39 @@ class UserControllerTest {
                 .andExpect(jsonPath("$.name", is(addedUser.getName())))
                 .andExpect(jsonPath("$.email", is(addedUser.getEmail())));
     }
+
+    @Test
+    void updateUser() throws Exception {
+        UserDto updatedUser = new UserDto();
+        updatedUser.setId(1);
+        updatedUser.setName("User");
+        updatedUser.setEmail("email@email.com");
+
+        Mockito.when(userService.updateUser(1, updatedUser))
+                .thenReturn(updatedUser);
+
+        mvc.perform(patch("/users/1")
+                        .content(mapper.writeValueAsString(updatedUser))
+                        .characterEncoding(StandardCharsets.UTF_8)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(updatedUser.getId()), Integer.class))
+                .andExpect(jsonPath("$.name", is(updatedUser.getName())))
+                .andExpect(jsonPath("$.email", is(updatedUser.getEmail())));
+    }
+
+    @Test
+    void deleteUser() throws Exception {
+        UserDto addedUser = new UserDto();
+        addedUser.setId(1);
+        addedUser.setName("User");
+        addedUser.setEmail("email@email.com");
+
+        mvc.perform(delete("/users/1")
+                        .characterEncoding(StandardCharsets.UTF_8)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
 }
