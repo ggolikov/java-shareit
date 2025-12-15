@@ -5,10 +5,10 @@ import lombok.Data;
 
 @Data
 public class AddItemDto {
-    public String name;
-    public String description;
-    public Boolean available;
-    public Long ownerId;
+    private String name;
+    private String description;
+    private Boolean available;
+    private Long ownerId;
     @Nullable
-    public Integer requestId;
+    private Integer requestId;
 }

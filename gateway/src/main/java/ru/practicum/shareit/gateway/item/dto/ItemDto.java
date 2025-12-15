@@ -5,10 +5,10 @@ import ru.practicum.shareit.gateway.user.dto.UserDto;
 
 @Data
 public class ItemDto {
-    public Integer id;
-    public String name;
-    public String description;
-    public Boolean available;
-    public UserDto owner;
-    public Integer requestId;
+    private Integer id;
+    private String name;
+    private String description;
+    private Boolean available;
+    private UserDto owner;
+    private Integer requestId;
 }

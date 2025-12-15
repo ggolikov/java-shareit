@@ -8,9 +8,9 @@ import java.util.Collection;
 
 @Data
 public class ExtendedItemDto extends ItemDto {
-    LocalDateTime start;
-    LocalDateTime end;
-    Booking lastBooking;
-    Booking nextBooking;
-    Collection<CommentDto> comments;
+    private LocalDateTime start;
+    private LocalDateTime end;
+    private Booking lastBooking;
+    private Booking nextBooking;
+    private Collection<CommentDto> comments;
 }

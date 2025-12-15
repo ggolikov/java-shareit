@@ -6,9 +6,9 @@ import lombok.Data;
 
 @Data
 public class UserDto {
-    public Integer id;
-    public String name;
+    private Integer id;
+    private String name;
     @Email
     @NotNull
-    public String email;
+    private String email;
 }

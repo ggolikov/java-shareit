@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 @Data
 public class AddBookingDto {
-    LocalDateTime start;
-    LocalDateTime end;
-    Integer itemId;
+    private LocalDateTime start;
+    private LocalDateTime end;
+    private Integer itemId;
 }

@@ -8,8 +8,8 @@ import java.util.List;
 
 @Data
 public class RequestDto {
-    Integer id;
-    String description;
-    LocalDateTime created;
-    List<ItemDto> items;
+    private Integer id;
+    private String description;
+    private LocalDateTime created;
+    private List<ItemDto> items;
 }
