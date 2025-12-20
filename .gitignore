@@ -17,6 +17,10 @@ target/
 .idea
 *.iws
 *.iml
+gateway/*.iml
+gateway/target
+server/*.iml
+server/target
 *.ipr
 
 ### NetBeans ###
@@ -28,6 +32,7 @@ target/
 build/
 !**/src/main/**/build/
 !**/src/test/**/build/
+server/db/
 
 ### VS Code ###
 .vscode/
